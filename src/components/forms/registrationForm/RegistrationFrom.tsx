@@ -1,6 +1,7 @@
 import React, { FormEvent } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import styles from './RegistrationFrom.module.scss';
+import { useNavigate } from "react-router-dom";
 
 interface IRegistrationFromData {
 	firstName: string;
@@ -16,6 +17,8 @@ interface IRegistrationFrom {
 let firstName = '', lastName = '', email = '', password = '', proofPassword = '';
 
 export default function RegistrationFrom(props: IRegistrationFrom) {
+	const navigate = useNavigate();
+
 	const submitForm = (event: FormEvent<HTMLFormElement>) => {
 		event.stopPropagation();
 		event.preventDefault();
@@ -43,6 +46,10 @@ export default function RegistrationFrom(props: IRegistrationFrom) {
 	const getProofPassword = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const elem = event.currentTarget;
 		proofPassword = elem.value;
+	}
+
+	const rerouteOnAuthenticationForm = () => {
+		navigate('/authentication')
 	}
 
 	return (
@@ -78,8 +85,8 @@ export default function RegistrationFrom(props: IRegistrationFrom) {
 				</Form.Group>
 
 				<div className={styles.buttons}>
-					<Button variant="secondary" type="button">Back to log in</Button>
-					<Button variant="primary" type="submit">Sign up</Button>
+					<Button variant="secondary" type="button" children='Back to log in' onClick={rerouteOnAuthenticationForm} />
+					<Button variant="primary" type="submit" children='Sign up' />
 				</div>
 			</Form>
 		</div>

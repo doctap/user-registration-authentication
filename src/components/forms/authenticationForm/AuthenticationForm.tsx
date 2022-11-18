@@ -1,6 +1,7 @@
 import React, { FormEvent } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import styles from './AuthenticationForm.module.scss';
+import { useNavigate } from "react-router-dom";
 
 interface IAuthenticationFormData {
 	email: string;
@@ -15,6 +16,8 @@ interface IAuthenticationForm {
 let email = '', password = '', checkMeOut = false;
 
 export default function AuthenticationForm(props: IAuthenticationForm) {
+	const navigate = useNavigate();
+
 	const submitForm = (event: FormEvent<HTMLFormElement>) => {
 		event.stopPropagation();
 		event.preventDefault();
@@ -34,6 +37,10 @@ export default function AuthenticationForm(props: IAuthenticationForm) {
 	const getConsent = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const elem = event.currentTarget;
 		checkMeOut = elem.checked;
+	}
+
+	const rerouteOnRegistrationForm = () => {
+		navigate('/registration')
 	}
 
 	return (
@@ -56,9 +63,10 @@ export default function AuthenticationForm(props: IAuthenticationForm) {
 					<Form.Check type="checkbox" label="Check me out" onChange={getConsent} />
 				</Form.Group>
 
-				<Button variant="primary" type="submit">
-					Submit
-				</Button>
+				<div className={styles.buttons}>
+					<Button variant="primary" type="submit" children='Log in' />
+					<Button variant="secondary" type="button" children='Go to registration' onClick={rerouteOnRegistrationForm} />
+				</div>
 			</Form>
 		</div>
 	)
