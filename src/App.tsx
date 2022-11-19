@@ -8,7 +8,6 @@ import PageHome from './components/pages/pageHome/PageHome';
 function App() {
 
 
-
 	return (
 		<Routes>
 			<Route>
