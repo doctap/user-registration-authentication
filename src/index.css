@@ -1,4 +1,6 @@
 @import 'bootstrap/dist/css/bootstrap.min.css';
+@import './fonts/iconfont/material-icons.css';
+
 
 html,
 body,
@@ -18,4 +20,4 @@ body {
 code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
 		monospace;
-}
+} 
