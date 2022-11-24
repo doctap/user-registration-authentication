@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
-import { convertUsers, User } from '../../../api/convert-data';
+import React, { useEffect, useState } from 'react';
+import { User } from '../../../api/data-contracts';
 import { blockUsers, deleteUsers, getUsers, unblockUsers } from '../../../api/http-client';
 import TableManager, { Actions } from '../../tableManager/TableManager';
 import TableUsers from '../../tableUsers/TableUsers';
 import ContainerPage from '../containerPage/ContainerPage';
 
 export default function PageHome() {
-
-	const [users, setUsers] = useState<User[]>(convertUsers(getUsers()));
+	const [users, setUsers] = useState<User[]>([]);
 
 	const checkedAll = (isChecked: boolean) => {
 		const items = [...users]
@@ -15,7 +14,7 @@ export default function PageHome() {
 		setUsers(items)
 	}
 
-	const checkedUser = (id: string) => {
+	const checkedUser = (id: number) => {
 		const foundItem = users.find(it => it.id === id);
 
 		if (foundItem === undefined) {
@@ -37,16 +36,20 @@ export default function PageHome() {
 
 		switch (action) {
 			case 'block':
-				blockUsers(usersId);
+				blockUsers(usersId).then(x => setUsers(x));
 				break;
 			case 'unblock':
-				unblockUsers(usersId);
+				unblockUsers(usersId).then(x => setUsers(x));
 				break;
 			case 'delete':
-				deleteUsers(usersId);
+				deleteUsers(usersId).then(x => setUsers(x));
 				break;
 		}
 	}
+
+	useEffect(() => {
+		getUsers().then(x => setUsers(x))
+	}, [])
 
 	return (
 		<ContainerPage variant='padding2rem'>

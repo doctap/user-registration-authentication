@@ -3,7 +3,7 @@ import { Form } from 'react-bootstrap'
 import { IUser } from '../../api/data-contracts'
 
 interface IUserItem {
-	getUserId(id: string): void;
+	getUserId(id: number): void;
 	isChecked: boolean;
 }
 
@@ -18,7 +18,7 @@ export default function UserItem(props: IUser & IUserItem) {
 			<td>{props.email}</td>
 			<td>{props.registrationDate}</td>
 			<td>{props.lastLogin}</td>
-			<td>{props.status}</td>
+			<td>{props.isBlocked ? 'blocked' : 'active'}</td>
 		</tr>
 	)
 }

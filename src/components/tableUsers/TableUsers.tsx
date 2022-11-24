@@ -1,13 +1,13 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
-import { User } from '../../api/convert-data';
+import { User } from '../../api/data-contracts';
 import UserItem from '../userItem/UserItem';
 import styles from './TableUsers.module.scss';
 
 interface ITableUsers {
 	users: User[];
 	checkedAllUsers(isChecked: boolean): void;
-	checkedUser(usersId: string): void;
+	checkedUser(usersId: number): void;
 }
 
 export default function TableUsers(props: ITableUsers) {
@@ -16,12 +16,12 @@ export default function TableUsers(props: ITableUsers) {
 			<thead>
 				<tr>
 					<td><Form.Check type="checkbox" onChange={(e) => props.checkedAllUsers(e.currentTarget.checked)} /></td>
-					<td>идентификатор</td>
-					<td>именем</td>
-					<td>мылом</td>
-					<td>датой регистрации</td>
-					<td>датой последнего логина</td>
-					<td>статусом</td>
+					<td>Id</td>
+					<td>Full Name</td>
+					<td>E-mail</td>
+					<td>Registration</td>
+					<td>Last login</td>
+					<td>Status</td>
 				</tr>
 			</thead>
 			<tbody>
@@ -37,7 +37,7 @@ export default function TableUsers(props: ITableUsers) {
 							id={u.id}
 							lastLogin={u.lastLogin}
 							registrationDate={u.registrationDate}
-							status={u.status}
+							isBlocked={u.isBlocked}
 						/>
 					)}
 			</tbody>
