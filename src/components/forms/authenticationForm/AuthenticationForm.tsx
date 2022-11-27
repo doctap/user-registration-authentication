@@ -1,27 +1,21 @@
 import React, { FormEvent } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import styles from './AuthenticationForm.module.scss';
-import { useNavigate } from "react-router-dom";
-
-interface IAuthenticationFormData {
-	email: string;
-	password: string;
-	checkMeOut: boolean;
-}
+import { IAuthenticationData } from '../../../api/data-contracts';
 
 interface IAuthenticationForm {
-	getData(data: IAuthenticationFormData): void;
+	getData(data: IAuthenticationData): void;
+	reroute(): void;
 }
 
-let email = '', password = '', checkMeOut = false;
+let email = '', password = '';
 
 export default function AuthenticationForm(props: IAuthenticationForm) {
-	const navigate = useNavigate();
 
 	const submitForm = (event: FormEvent<HTMLFormElement>) => {
 		event.stopPropagation();
 		event.preventDefault();
-		(email && password) && props.getData({ email, password, checkMeOut });
+		(email && password) && props.getData({ email, password });
 	}
 
 	const getEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,15 +26,6 @@ export default function AuthenticationForm(props: IAuthenticationForm) {
 	const getPassword = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const elem = event.currentTarget;
 		password = elem.value;
-	}
-
-	const getConsent = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const elem = event.currentTarget;
-		checkMeOut = elem.checked;
-	}
-
-	const rerouteOnRegistrationForm = () => {
-		navigate('/registration')
 	}
 
 	return (
@@ -59,13 +44,9 @@ export default function AuthenticationForm(props: IAuthenticationForm) {
 					<Form.Control type="password" placeholder="Password" onChange={getPassword} />
 				</Form.Group>
 
-				<Form.Group className="mb-3" controlId="formBasicCheckbox">
-					<Form.Check type="checkbox" label="Check me out" onChange={getConsent} />
-				</Form.Group>
-
 				<div className={styles.buttons}>
 					<Button variant="primary" type="submit" children='Log in' />
-					<Button variant="secondary" type="button" children='Go to registration' onClick={rerouteOnRegistrationForm} />
+					<Button variant="secondary" type="button" children='Go to registration' onClick={() => props.reroute()} />
 				</div>
 			</Form>
 		</div>

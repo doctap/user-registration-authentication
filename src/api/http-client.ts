@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
-import { IUser, ConverseResponse } from "./data-contracts";
-import { convertUsers } from "../utilites/Utilites";
+import { IUser, ConverseResponse, IRegistrationData, IAuthenticationData, isSucceeded } from "./data-contracts";
+import { convertUsers } from "../utils/Utils";
 
 const serveUrl = 'http://localhost:8000';
 
@@ -25,4 +25,14 @@ export async function blockUsers(usersId: number[]) {
 export async function unblockUsers(usersId: number[]) {
 	const res = await axios.post<number[], AxiosResponse<ConverseResponse>>(`${serveUrl}/unblock-users`, { usersId });
 	return convertUsers(res.data[0]);
+}
+
+export async function registrationUser(userData: IRegistrationData) {
+	const res = await axios.post<IRegistrationData, AxiosResponse<isSucceeded>>(`${serveUrl}/registration`, userData);
+	return res.data;
+}
+
+export async function authenticationUser(userData: IAuthenticationData) {
+	const res = await axios.post<IAuthenticationData, AxiosResponse<isSucceeded>>(`${serveUrl}/authentication`, userData);
+	return res.data;
 }

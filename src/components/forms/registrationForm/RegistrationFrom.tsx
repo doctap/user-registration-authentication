@@ -1,23 +1,16 @@
 import React, { FormEvent } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import styles from './RegistrationFrom.module.scss';
-import { useNavigate } from "react-router-dom";
-
-interface IRegistrationFromData {
-	firstName: string;
-	lastName: string;
-	email: string;
-	password: string;
-}
+import { IRegistrationData } from '../../../api/data-contracts';
 
 interface IRegistrationFrom {
-	getData(data: IRegistrationFromData): void;
+	getData(data: IRegistrationData): void;
+	reroute(): void;
 }
 
 let firstName = '', lastName = '', email = '', password = '', proofPassword = '';
 
 export default function RegistrationFrom(props: IRegistrationFrom) {
-	const navigate = useNavigate();
 
 	const submitForm = (event: FormEvent<HTMLFormElement>) => {
 		event.stopPropagation();
@@ -31,26 +24,27 @@ export default function RegistrationFrom(props: IRegistrationFrom) {
 		const elem = event.currentTarget;
 		firstName = elem.value;
 	}
+
 	const getLastName = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const elem = event.currentTarget;
 		lastName = elem.value;
 	}
+
 	const getEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const elem = event.currentTarget;
 		email = elem.value;
 	}
+
 	const getPassword = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const elem = event.currentTarget;
 		password = elem.value;
 	}
+
 	const getProofPassword = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const elem = event.currentTarget;
 		proofPassword = elem.value;
 	}
 
-	const rerouteOnAuthenticationForm = () => {
-		navigate('/authentication')
-	}
 
 	return (
 		<div className={styles.form}>
@@ -59,14 +53,14 @@ export default function RegistrationFrom(props: IRegistrationFrom) {
 					<Form.Label className="mb-1">What is your name?</Form.Label>
 					<Row className="mb-2" >
 						<Col>
-							<Form.Control type="text" placeholder="first name" onChange={getFirstName} />
+							<Form.Control maxLength={20} type="text" placeholder="first name" onChange={getFirstName} />
 						</Col>
 						<Col>
-							<Form.Control type="text" placeholder="last name" onChange={getLastName} />
+							<Form.Control maxLength={20} type="text" placeholder="last name" onChange={getLastName} />
 						</Col>
 					</Row>
 					<Form.Label className="mb-1">Email address</Form.Label>
-					<Form.Control type="email" placeholder="email" onChange={getEmail} />
+					<Form.Control maxLength={35} type="email" placeholder="email" onChange={getEmail} />
 					<Form.Text className="text-muted">
 						We'll never share your email with anyone else.
 					</Form.Text>
@@ -85,7 +79,7 @@ export default function RegistrationFrom(props: IRegistrationFrom) {
 				</Form.Group>
 
 				<div className={styles.buttons}>
-					<Button variant="secondary" type="button" children='Back to log in' onClick={rerouteOnAuthenticationForm} />
+					<Button variant="secondary" type="button" children='Back to log in' onClick={() => props.reroute()} />
 					<Button variant="primary" type="submit" children='Sign up' />
 				</div>
 			</Form>

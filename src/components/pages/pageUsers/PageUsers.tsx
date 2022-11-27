@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { User } from '../../../api/data-contracts';
-import { blockUsers, deleteUsers, getUsers, unblockUsers } from '../../../api/http-client';
+import { useNavigate } from 'react-router-dom';
+import { IAuthenticationData, User } from '../../../api/data-contracts';
+import { authenticationUser, blockUsers, deleteUsers, getUsers, unblockUsers } from '../../../api/http-client';
+import CurrentAccount from '../../currentAccount/CurrentAccount';
 import TableManager, { Actions } from '../../tableManager/TableManager';
 import TableUsers from '../../tableUsers/TableUsers';
 import ContainerPage from '../containerPage/ContainerPage';
+import styles from './PageUsers.module.scss';
 
-export default function PageHome() {
+export default function PageUsers() {
+	const navigate = useNavigate();
 	const [users, setUsers] = useState<User[]>([]);
 
 	const checkedAll = (isChecked: boolean) => {
@@ -47,13 +51,24 @@ export default function PageHome() {
 		}
 	}
 
+	const logout = () => {
+		localStorage.removeItem('user')
+		navigate('/authentication')
+	}
+
+	const user: IAuthenticationData = JSON.parse(localStorage.getItem('user') ?? `{"email": "noAccess", "password": "noAccess"}`);
+	authenticationUser(user).then(x => !x.isSucceeded && navigate('/authentication'));
+
 	useEffect(() => {
 		getUsers().then(x => setUsers(x))
 	}, [])
 
 	return (
 		<ContainerPage variant='padding2rem'>
-			<TableManager getAction={getAction} />
+			<div className={styles.toolBar}>
+				<TableManager getAction={getAction} />
+				<CurrentAccount account={user.email} logOut={logout} />
+			</div>
 			<TableUsers checkedAllUsers={checkedAll} checkedUser={checkedUser} users={users} />
 		</ContainerPage>
 	)

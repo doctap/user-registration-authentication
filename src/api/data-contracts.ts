@@ -4,6 +4,7 @@ export interface IConvertUserProp {
 
 export type User = IUser & IConvertUserProp;
 export type ConverseResponse = [IUser[], any];
+export type isSucceeded = {isSucceeded: boolean};
 
 export interface IUser {
 	id: number;
@@ -17,4 +18,16 @@ export interface IUser {
 
 	/** @format date-time */
 	lastLogin: string;
+}
+
+export interface IRegistrationData {
+	firstName: string;
+	lastName: string;
+	email: string;
+	password: string;
+}
+
+export interface IAuthenticationData {
+	email: string;
+	password: string;
 }

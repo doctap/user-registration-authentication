@@ -1,1 +1,0 @@
-export const convertUsers = <T>(users: T[]) => users.map(u => ({ ...u, isChecked: false }));

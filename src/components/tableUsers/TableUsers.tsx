@@ -13,7 +13,7 @@ interface ITableUsers {
 export default function TableUsers(props: ITableUsers) {
 	return (
 		<table className={styles.TableUsers}>
-			<thead>
+			<thead className={styles.thead}>
 				<tr>
 					<td><Form.Check type="checkbox" onChange={(e) => props.checkedAllUsers(e.currentTarget.checked)} /></td>
 					<td>Id</td>
