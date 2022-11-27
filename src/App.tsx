@@ -1,26 +1,21 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Routes, Route } from 'react-router-dom';
+import PageAuthentication from './components/pages/pageAuthentication/PageAuthentication';
+import PageRegistration from './components/pages/pageRegistration/PageRegistration';
+import NoPage from './components/pages/NoPage';
+import PageUsers from './components/pages/pageUsers/PageUsers';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	return (
+		<Routes>
+			<Route>
+				<Route path='/' element={<PageUsers />} />
+				<Route path='/authentication' element={<PageAuthentication />} />
+				<Route path='/registration' element={<PageRegistration />} />
+				<Route path='*' element={<NoPage />} />
+			</Route>
+		</Routes>
+	);
 }
 
-export default App;
+export default App; 
