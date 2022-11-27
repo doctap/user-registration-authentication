@@ -19,3 +19,4 @@ function App() {
 }
 
 export default App; 
+const i = 0;
